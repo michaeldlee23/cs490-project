@@ -1,9 +1,11 @@
 import numpy as np
+import BitVector
+
 
 from BitVector import BitVector
 
 class Bitmap:
-    def __init__(self, attrs):
+    def __init__(self, attrs, data):
         """
         Initialize a new Bitmap.
 
@@ -11,9 +13,13 @@ class Bitmap:
             attrs : dict
                 A dictionary mapping attribute names with their domains.
         """
-        self.UB = []
+        unq_vals = set(data[0])
+        self.UB = {}
         self.VB = []
         self.EB = []
+        for i in unq_vals:
+            self.UB[i] = {}
+
         pass
 
     def insert(self, values):
