@@ -20,7 +20,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "-z":
     distribution = ZIPFIAN
 
 if distribution == UNIFORM:
-    data = np.random.randint(0, d, n)
+    data = np.random.randint(1, d+1, n)
     np.save(os.path.join(datadir, "uniform_d-%d_n-%d" % (d, n)), data)
 elif distribution == ZIPFIAN:
     x = np.arange(1, d+1)
