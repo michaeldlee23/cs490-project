@@ -1,8 +1,9 @@
 import numpy as np
-import BitVector as bv
+
+import BitVector as BitVector
 
 class Bitmap:
-    def __init__(self, attrs):
+    def __init__(self, attrs, data):
         """
         Initialize a new Bitmap.
 
@@ -10,9 +11,13 @@ class Bitmap:
             attrs : dict
                 A dictionary mapping attribute names with their domains.
         """
-        self.UB = []
+        unq_vals = set(data[0])
+        self.UB = {}
         self.VB = []
         self.EB = []
+        for i in unq_vals:
+            self.UB[i] = {}
+
         pass
 
     def insert(self, value):
@@ -24,7 +29,7 @@ class Bitmap:
                 new value
         """
         # find i bitvector that val corresponds to
-        i = bv.BitVector()
+        i = BitVector.BitVector()
         for bitvec in self.UB:
             if bitvec.intValue() == value:
                 # if i does not have enough empty padding space
@@ -46,7 +51,7 @@ class Bitmap:
         """
 
         # (1) find i bitvector that val corresponds to
-        i = bv.BitVector()
+        i = BitVector.BitVector()
         for bitvec in self.UB:
             if bitvec.intValue() == value:
                 i = bitvec
@@ -54,7 +59,7 @@ class Bitmap:
         old_val = 0 # (2) find old value old_val of row k TODO
 
         # (3) find the j bitvector that old_val corresponds to
-        j = bv.BitVector()
+        j = BitVector.BitVector()
         for bitvec in self.UB:
             if bitvec.intValue() == value:
                 j = bitvec
