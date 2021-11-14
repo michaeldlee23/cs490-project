@@ -1,5 +1,7 @@
 import numpy as np
 
+from BitVector import BitVector
+
 class Bitmap:
     def __init__(self, attrs):
         """
