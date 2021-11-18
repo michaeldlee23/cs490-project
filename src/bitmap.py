@@ -5,7 +5,7 @@ import BitVector
 from BitVector import BitVector
 
 class Bitmap:
-    def __init__(self, attrs, data):
+    def __init__(self, data):
         """
         Initialize a new Bitmap.
 
@@ -13,12 +13,18 @@ class Bitmap:
             attrs : dict
                 A dictionary mapping attribute names with their domains.
         """
-        unq_vals = set(data[0])
+        unq_vals = set(data)
+        self.size = len(data)
         self.UB = {}
-        self.VB = []
-        self.EB = []
+        self.VB = {}
+        self.attribute = data
+
         for i in unq_vals:
-            self.UB[i] = {}
+            self.UB[i] = BitVector.BitVector(size=self.size)
+            self.VB[i] = BitVector.BitVector(size=self.size)
+
+        for index, value in enumerate(self.attribute):
+            self.VB[value][index] = 1
 
         pass
 
