@@ -183,3 +183,22 @@ Suppose we want to insert a new row with A=20
   * Mixed reads and writes
   * Only read
   * Only write
+
+## Word Aligned Hybrid Compression
+
+Compress 31 bits at a time
+
+Consider two cases:
+
+1. All bits are 0
+2. At least 1 bit is 1
+
+Each row of the compressed output contains 32 bits
+
+* The extra bit (the signal bit)
+  * 0 is the literal flag, saying that when you decompress the next 31 bits should be taken as-is
+    * This is set when there is at least 1 bit that is 1
+  * 1 is the fill flag — we keep reading rows of the uncompressed data until we reach a row that has a 1. this tells us that the following 31 bits follow the fill pattern. The second bit tells us if the row is filled with 1s or 0s
+    * The 30 bits now represent a 30-bit integer saying how many repetitions to perform
+    * If there were 4 rows that were all zeros before we reached a row with a 1 in it, then the "fill" row in the compressed output would look like `10...0100`
+* Remaining 31 bits are copied directly from the uncompressed data

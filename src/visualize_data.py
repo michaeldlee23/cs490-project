@@ -4,5 +4,5 @@ import matplotlib.pyplot as plt
 
 data = np.load(sys.argv[1])
 
-plt.hist(data)
+plt.hist(data, edgecolor='k')
 plt.show()
