@@ -1,6 +1,6 @@
 import numpy as np
 
-import BitVector as BitVector
+from BitVector import BitVector
 
 class Bitmap:
     def __init__(self, attrs, data):
@@ -18,8 +18,6 @@ class Bitmap:
         for i in unq_vals:
             self.UB[i] = {}
 
-        pass
-
     def insert(self, value):
         """
         Insert a new row into the bitmap.
@@ -29,7 +27,7 @@ class Bitmap:
                 new value
         """
         # find i bitvector that val corresponds to
-        i = BitVector.BitVector()
+        i = BitVector()
         for bitvec in self.UB:
             if bitvec.intValue() == value:
                 # if i does not have enough empty padding space
@@ -51,7 +49,7 @@ class Bitmap:
         """
 
         # (1) find i bitvector that val corresponds to
-        i = BitVector.BitVector()
+        i = BitVector()
         for bitvec in self.UB:
             if bitvec.intValue() == value:
                 i = bitvec
@@ -59,7 +57,7 @@ class Bitmap:
         old_val = 0 # (2) find old value old_val of row k TODO
 
         # (3) find the j bitvector that old_val corresponds to
-        j = BitVector.BitVector()
+        j = BitVector()
         for bitvec in self.UB:
             if bitvec.intValue() == value:
                 j = bitvec
