@@ -36,10 +36,11 @@ class Bitmap:
         i = BitVector()
         for bitvec in self.UB:
             if bitvec.intValue() == value:
-                # if i does not have enough empty padding space
-                # extend i's padding space
-        # i's #elements++
-        # i[#elements] = 1
+                if str(i)[-1] != 0: # if i does not have enough empty padding space
+                    i.pad_from_right(1) # extend i's padding space
+        
+        # i's #elements++ adjusts itself from padding i think?
+        i[-1] = '1' # i[#elements] = 1
 
         pass
 
@@ -54,23 +55,16 @@ class Bitmap:
                 new value
         """
 
-        # (1) find i bitvector that val corresponds to
-        i = BitVector()
-        for bitvec in self.UB:
-            if bitvec.intValue() == value:
-                i = bitvec
+        # find i bitvector that val corresponds to
+        for idx in range(len(self.UB)): # iterate through all ub's
+            if self.UB[idx].intValue() == value: # if one ub's intValue is 10
+                for ub in range(len(self.UB)):
+                    if ub[idx] == 1 # ub is 20's UB (old value)
+                        self.UB[idx] = '1' if self.UB[idx] = '0' else '1' # negate new value
+                        ub = '1' if ub = '0' else '1' # negate old value
+                        break
 
-        old_val = 0 # (2) find old value old_val of row k TODO
-
-        # (3) find the j bitvector that old_val corresponds to
-        j = BitVector()
-        for bitvec in self.UB:
-            if bitvec.intValue() == value:
-                j = bitvec
-        # (4, 5)
-        i[rid] = '1' if i[rid] == '0' else '0'
-        j[rid] = '1' if j[rid] == '0' else '0'
-
+        
         pass
 
     def delete(self, rid):
@@ -82,18 +76,26 @@ class Bitmap:
                 The id corresponding to the row being deleted.
         """
 
-        # (1) find the val of row k
-        val = 0
-        # (2) find the i bitvector that val corresponds to
-        i = 0
-        # (3)
-        i[rid] = '1' if i[rid] == '0' else '0'
-
+        # We need to retrieve the value Bi of this row k
+        for idx in range(len(self.VB)):
+            if self.VB[idx][rid] == 1:
+                # Find the update bitvector corresponding to this value Bi
+                # Negate the contents of the selected update bitvector for row k
+                self.UB[idx] = '1' if self.UB[idx] = '0' else '1'
         pass
 
-    def query(self):
+    def query(self, value):
         """
         ???
         """
-        pass
+        # (1) find i bitvector that val corresponds to
+        i = BitVector()
+        for idx in range(len(self.UB)):
+            if self.UB[idx].intValue() == value:
+                # if Ui contains only zero then
+                if int(str(self.UB[idx])) == 0:
+                    return self.VB[idx]
+                else:
+                    return self.UB[idx] ^= self.VB[idx]
+        return None
 
