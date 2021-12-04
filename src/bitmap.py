@@ -59,9 +59,16 @@ class Bitmap:
         for idx in range(len(self.UB)): # iterate through all ub's
             if self.UB[idx].intValue() == value: # if one ub's intValue is 10
                 for ub in range(len(self.UB)):
-                    if ub[idx] == 1 # ub is 20's UB (old value)
-                        self.UB[idx] = '1' if self.UB[idx] = '0' else '1' # negate new value
-                        ub = '1' if ub = '0' else '1' # negate old value
+                    if ub[idx] == 1: # ub is 20's UB (old value)
+                        if self.UB[idx] == '0': # negate new value
+                            self.UB[idx] = '1'
+                        else:
+                            self.UB[idx] = '0'
+                        
+                        if ub == '0': # negate old value
+                            ub = '1'
+                        else:
+                            ub = '0'
                         break
 
         
@@ -81,7 +88,10 @@ class Bitmap:
             if self.VB[idx][rid] == 1:
                 # Find the update bitvector corresponding to this value Bi
                 # Negate the contents of the selected update bitvector for row k
-                self.UB[idx] = '1' if self.UB[idx] = '0' else '1'
+                if self.UB[idx] == '0': # negate new value
+                    self.UB[idx] = '1'
+                else:
+                    self.UB[idx] = '0'
         pass
 
     def query(self, value):
@@ -96,6 +106,6 @@ class Bitmap:
                 if int(str(self.UB[idx])) == 0:
                     return self.VB[idx]
                 else:
-                    return self.UB[idx] ^= self.VB[idx]
+                    return self.UB[idx] ^ self.VB[idx]
         return None
 
