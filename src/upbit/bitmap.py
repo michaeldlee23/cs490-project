@@ -62,7 +62,7 @@ class Bitmap:
                 self.size += 1
 
         #Set last value (if padded space was added or not?) to 1
-        self.UB[value][-1] = 1
+        self.VB[value][-1] = 1 
 
 
     def update(self, rid, value):
