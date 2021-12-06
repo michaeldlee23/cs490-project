@@ -18,8 +18,8 @@ class Bitmap:
         self.attribute = data
 
         for i in unq_vals:
-            self.UB[i] = BitVector.BitVector(size=self.size)
-            self.VB[i] = BitVector.BitVector(size=self.size)
+            self.UB[i] = BitVector(size=self.size)
+            self.VB[i] = BitVector(size=self.size)
 
         for index, value in enumerate(self.attribute):
             self.VB[value][index] = 1
@@ -39,7 +39,7 @@ class Bitmap:
         #    if bitvec.intValue() == value:
         #        if str(i)[-1] != 0: # if i does not have enough empty padding space
         #            i.pad_from_right(1) # extend i's padding space
-        
+
         # i's #elements++ adjusts itself from padding i think?
         #i[-1] = '1' # i[#elements] = 1
 
@@ -107,7 +107,6 @@ class Bitmap:
         else:
             self.UB[value][rid] = 0
 
-
     def delete(self, rid):
         """
         Delete a row from the bitmap.
@@ -139,7 +138,6 @@ class Bitmap:
                 self.UB[val][rid] = 0
         pass
 
-
     def query(self, value):
         """
         ???
@@ -161,6 +159,4 @@ class Bitmap:
         # Else, return the VB XOR UB
         else:
             return self.VB[value] ^ self.UB[value]
-
-        pass
 
