@@ -2,8 +2,6 @@ import numpy as np
 
 from BitVector import BitVector
 
-
-# noinspection PyInterpreter
 class Bitmap:
     def __init__(self, data):
         """
@@ -25,8 +23,7 @@ class Bitmap:
 
         for index, value in enumerate(self.attribute):
             self.VB[value][index] = 1
-            # ****
-            # Can you index into a BitVector like this??????
+
 
     def insert(self, value):
         """
@@ -40,14 +37,33 @@ class Bitmap:
         #i = BitVector()
         #for bitvec in self.UB:
         #    if bitvec.intValue() == value:
-        #        # if i does not have enough empty padding space
-                # extend i's padding space
-        # i's #elements++
-        # i[#elements] = 1
+        #        if str(i)[-1] != 0: # if i does not have enough empty padding space
+        #            i.pad_from_right(1) # extend i's padding space
+        
+        # i's #elements++ adjusts itself from padding i think?
+        #i[-1] = '1' # i[#elements] = 1
 
-        #bv = BitVector(intVal=self.UB, size=self.size++)
+        #UBi = self.UB[value]
 
-        pass
+        self.attribute.append(value)
+        hasPadding = 1
+
+        # Checking if any of the last values of either VB or UB are 1
+        # to see if there is padding space
+        for val in self.VB:
+            if self.VB[val][-1] == 1 or self.UB[val][-1] == 1:
+                hasPadding = 0
+                break
+
+        if hasPadding == 0:  #Add padding space to each vb and ub
+            for val in self.VB:
+                self.VB[val].pad_from_right(1)
+                self.UB[val].pad_from_right(1)
+                self.size += 1
+
+        #Set last value (if padded space was added or not?) to 1
+        self.UB[value][-1] = 1
+
 
     def update(self, rid, value):
         """
@@ -60,37 +76,37 @@ class Bitmap:
                 new value
         """
 
-        # (1) find i bitvector that val corresponds to
-        # i = BitVector()
-        #for bitvec in self.UB:
-        #    if bitvec.intValue() == value:
-        #        i = bitvec
-
-        #old_val = 0 # (2) find old value old_val of row k TODO
-
-        # (3) find the j bitvector that old_val corresponds to
-        #j = BitVector()
-        #for bitvec in self.UB:
-        #    if bitvec.intValue() == value:
-        #        j = bitvec
-        # (4, 5)
-        #i[rid] = '1' if i[rid] == '0' else '0'
-        #j[rid] = '1' if j[rid] == '0' else '0'
-
-        #Find the i bitvector that val corresponds to
+        # find i bitvector that val corresponds to
+        #for idx in range(len(self.UB)): # iterate through all ub's
+        #    if self.UB[idx].intValue() == value: # if one ub's intValue is 10
+        #        for ub in range(len(self.UB)):
+        #            if ub[idx] == 1: # ub is 20's UB (old value)
+        #                if self.UB[idx] == '0': # negate new value
+        #                    self.UB[idx] = '1'
+        #                else:
+        #                    self.UB[idx] = '0'
+        #
+        #                if ub == '0': # negate old value
+        #                    ub = '1'
+        #                else:
+        #                    ub = '0'
+        #                break
 
         old_val = 0
-
-        #Getting the old_val and updating the old row
+        # Negate the old value
         for val in self.VB:
-            if self.VB[val][rid] == 1:
+            if self.VB[val][rid] == 1:      #If old vb is 1, change ub to 1
                 old_val = val
                 self.UB[val][rid] = 1
+            elif self.VB[val][rid] == 0 and self.UB[val][rid] == 1: #If ub is 1 and vb is 0, change ub to 0
+                self.UB[val][rid] = 0
 
-        #Update row for new value
-        self.UB[value][rid] = 1
+        # Negate the new value
+        if self.UB[value][rid] == 0:    #If ub at rid is 0, then change to 1, otherwise change to 0
+            self.UB[value][rid] = 1
+        else:
+            self.UB[value][rid] = 0
 
-        pass
 
     def delete(self, rid):
         """
@@ -101,49 +117,50 @@ class Bitmap:
                 The id corresponding to the row being deleted.
         """
 
-        # (1) find the val of row k
-        #val = 0
-        # (2) find the i bitvector that val corresponds to
-        #i = 0
-        # (3)
-        #i[rid] = '1' if i[rid] == '0' else '0'
+        # We need to retrieve the value Bi of this row k
+        #for idx in range(len(self.VB)):
+        #    if self.VB[idx][rid] == 1:
+                # Find the update bitvector corresponding to this value Bi
+                # Negate the contents of the selected update bitvector for row k
+        #        if self.UB[idx] == '0': # negate new value
+        #            self.UB[idx] = '1'
+        #        else:
+        #            self.UB[idx] = '0'
 
-        #Find the value of rid
-        #For each value, look through VB at the rid
+        # Find the value of rid
+        # For each value, look through VB at the rid
         for val in self.VB:
-            #If value at rid is 1 and UB is untouched, update UB
+            # If value at rid is 1 and UB is untouched, update UB
             if self.VB[val][rid] == 1 and self.UB[val][rid] == 0:
                 self.UB[val][rid] = 1
-            #**** MAY NOT NEED THIS BELOW
-            #But if this rid has been switched to this value and hasn't been merged yet,
-            #then, update the UB
+            # But if this rid has been switched to this value and hasn't been merged yet,
+            # then, update the UB
             elif self.VB[val][rid] == 0 and self.UB[val][rid] == 1:
                 self.UB[val][rid] = 0
-
         pass
 
-    def search(self, val):
+
+    def query(self, value):
         """
-        Find whether a value exists and if so, in which position(s)
-
-        Args:
-            val: int
-                The attribute value that is being searched for
-
+        ???
         """
-
-        #Find the i bitvector that val corresponds to
+        # (1) find i bitvector that val corresponds to
         #i = BitVector()
-        #for bitvec in self.UB:
-        #    if bitvec.intValue() == 0:
-        #****** Don't think I even need to do this
+        #for idx in range(len(self.UB)):
+        #    if self.UB[idx].intValue() == value:
+        #        # if Ui contains only zero then
+        #        if int(str(self.UB[idx])) == 0:
+        #            return self.VB[idx]
+        #        else:
+        #            return self.UB[idx] ^ self.VB[idx]
+        #return None
 
-        #If the UB is all zeros, return the VB
-        if self.UB[val].intValue() == 0:
-            return self.VB[val]
-        #Else, return the VB XOR UB
+        # If the UB is all zeros, return the VB
+        if self.UB[value].intValue() == 0:
+            return self.VB[value]
+        # Else, return the VB XOR UB
         else:
-            return self.VB[val] ^ self.UB[val]
+            return self.VB[value] ^ self.UB[value]
 
         pass
 
