@@ -3,7 +3,7 @@ import numpy as np
 from BitVector import BitVector
 
 
-class UCB:
+class Bitmap:
     def __init__(self, data):
         """
         Initialize a new Bitmap.
@@ -39,7 +39,7 @@ class UCB:
         """
         # find i bitvector that val corresponds to
         self.attribute.append(value)
-        tail = len(self.attribute) - 1
+        tail = -1
         self.EB.pad_from_right(1)
         self.EB[-1] = 1
         for key in self.VB:
@@ -48,9 +48,6 @@ class UCB:
                 self.VB[key][tail] = 1
             else:
                 self.VB[key][tail] = 0
-
-
-        pass
 
     def update(self, rid, value):
         """
@@ -67,8 +64,6 @@ class UCB:
         self.delete(rid)
         self.insert(value)
 
-        pass
-
     def delete(self, rid):
         """
         Delete a row from the bitmap.
@@ -81,7 +76,6 @@ class UCB:
         # We need to retrieve the value Bi of this row k
 
         self.EB[rid] = 0
-        pass
 
     def query(self, value):
         """
@@ -96,5 +90,4 @@ class UCB:
             if matched[index] == 1:
                 value_index.append(index)
         return value_index
-
 

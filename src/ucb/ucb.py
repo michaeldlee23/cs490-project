@@ -1,8 +1,8 @@
 import numpy as np
 
-from .bitmap import Bitmap
+from .ucb_bitmap import Bitmap
 
-class UpBit:
+class UCB:
     def __init__(self, dataset):
         # for each attribute in dataset, create a Bitmap
         self.bitmaps = {attr: Bitmap(data) for (attr, data) in dataset.items()}

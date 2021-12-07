@@ -8,13 +8,13 @@ UNIFORM = 0
 ZIPFIAN = 1
 
 np.random.seed(SEED)
-datadir = "data/synthetic"
+datadir = "../data/synthetic"
 if not os.path.isdir(datadir):
     os.mkdir(datadir)
 # n: number of records
 # d: cardinality of attribute domain
-n = 1000
-d = 10
+n = int(1e4)
+d = 100
 distribution = UNIFORM
 if len(sys.argv) > 1 and sys.argv[1] == "-z":
     distribution = ZIPFIAN
