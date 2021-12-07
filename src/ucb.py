@@ -3,7 +3,7 @@ import numpy as np
 from BitVector import BitVector
 
 
-class Bitmap:
+class UCB:
     def __init__(self, data):
         """
         Initialize a new Bitmap.
