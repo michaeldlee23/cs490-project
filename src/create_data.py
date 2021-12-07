@@ -13,8 +13,8 @@ if not os.path.isdir(datadir):
     os.mkdir(datadir)
 # n: number of records
 # d: cardinality of attribute domain
-n = int(1e8)
-d = 100
+n = int(1e3)
+d = 10
 distribution = UNIFORM
 if len(sys.argv) > 1 and sys.argv[1] == "-z":
     distribution = ZIPFIAN
