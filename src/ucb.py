@@ -88,6 +88,11 @@ class Bitmap:
         # (1) find i bitvector that val corresponds to
         val_bv = self.VB[value]
         val_eb = self.EB
-        return val_eb.__and__(val_bv)
+        value_index = []
+        matched = val_eb.__and__(val_bv)
+        for index in range(matched.length()):
+            if matched[index] == 1:
+                value_index.append(index)
+        return value_index
 
 
