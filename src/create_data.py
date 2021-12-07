@@ -13,11 +13,7 @@ if not os.path.isdir(datadir):
     os.mkdir(datadir)
 # n: number of records
 # d: cardinality of attribute domain
-<<<<<<< HEAD
 n = 1000
-=======
-n = int(1e3)
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
 d = 10
 distribution = UNIFORM
 if len(sys.argv) > 1 and sys.argv[1] == "-z":
