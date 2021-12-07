@@ -26,11 +26,8 @@ def compress(data):
         if idx != len(data) and not any(bits):
             if one_count != 0:
                 compressed += format(one_count, "030b")
-<<<<<<< HEAD
                 fence_pointers.append(temp_fence)
                 temp_fence += 31 * one_count
-=======
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
                 one_count = 0
             if zero_count == 0:
                 compressed += "1"
@@ -39,11 +36,8 @@ def compress(data):
         elif idx != len(data) and all(bits):
             if zero_count != 0:
                 compressed += format(zero_count, "030b")
-<<<<<<< HEAD
                 fence_pointers.append(temp_fence)
                 temp_fence += 31 * zero_count
-=======
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
                 zero_count = 0
             if one_count == 0:
                 compressed += "1"
