@@ -23,7 +23,7 @@ def compress(data):
         bits = data[:idx]
         if idx != len(data) and not any(bits):
             if one_count != 0:
-                compressed += format(count, "030b")
+                compressed += format(one_count, "030b")
                 one_count = 0
             if zero_count == 0:
                 compressed += "1"
@@ -31,7 +31,7 @@ def compress(data):
             zero_count += 1
         elif idx != len(data) and all(bits):
             if zero_count != 0:
-                compressed += format(count, "030b")
+                compressed += format(zero_count, "030b")
                 zero_count = 0
             if one_count == 0:
                 compressed += "1"
