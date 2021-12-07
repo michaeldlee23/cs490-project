@@ -1,19 +1,12 @@
 import numpy as np
 
 from BitVector import BitVector
-<<<<<<< HEAD
 import WAH
-=======
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
 
 class Bitmap:
     def __init__(self, data):
         """
         Initialize a new Bitmap.
-<<<<<<< HEAD
-=======
-
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
         Args:
             attrs : dict
                 A dictionary mapping attribute names with their domains.
@@ -23,10 +16,6 @@ class Bitmap:
         self.UB = {}
         self.VB = {}
         self.attribute = data
-<<<<<<< HEAD
-        self.fences = {}
-=======
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
 
         for i in unq_vals:
             self.UB[i] = BitVector(size=self.size)
@@ -35,22 +24,13 @@ class Bitmap:
         for index, value in enumerate(self.attribute):
             self.VB[value][index] = 1
 
-<<<<<<< HEAD
     def insert(self, value):
         """
         Insert a new row into the bitmap.
-=======
-
-    def insert(self, value):
-        """
-        Insert a new row into the bitmap.
-
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
         Args:
             value : int
                 new value
         """
-<<<<<<< HEAD
         # find i bitvector that val corresponds to
         #i = BitVector()
         #for bitvec in self.UB:
@@ -62,9 +42,6 @@ class Bitmap:
         #i[-1] = '1' # i[#elements] = 1
 
         #UBi = self.UB[value]
-=======
-
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
         self.attribute.append(value)
         hasPadding = 1
 
@@ -80,26 +57,17 @@ class Bitmap:
                 self.VB[val].pad_from_right(1)
                 self.UB[val].pad_from_right(1)
             self.size += 1
-<<<<<<< HEAD
         #Set last value (if padded space was added or not?) to 1
         if value not in self.UB.keys():
             self.VB[value] = BitVector(size = self.size)
             self.UB[value] = BitVector(size = self.size)
         self.UB[value][-1] = 1
-=======
-
-        #Set last value (if padded space was added or not?) to 1
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
         self.VB[value][-1] = 1
 
 
     def update(self, rid, value):
         """
         Update a row in the bitmap.
-<<<<<<< HEAD
-=======
-
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
         Args:
             rid : int
                 The id corresponding to the row being updated.
@@ -107,7 +75,6 @@ class Bitmap:
                 new value
         """
 
-<<<<<<< HEAD
         # find i bitvector that val corresponds to
         #for idx in range(len(self.UB)): # iterate through all ub's
         #    if self.UB[idx].intValue() == value: # if one ub's intValue is 10
@@ -124,8 +91,6 @@ class Bitmap:
         #                    ub = '0'
         #                break
 
-=======
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
         old_val = 0
         # Negate the old value
         for val in self.VB:
@@ -141,23 +106,14 @@ class Bitmap:
         else:
             self.UB[value][rid] = 0
 
-<<<<<<< HEAD
     def delete(self, rid):
         """
         Delete a row from the bitmap.
-=======
-
-    def delete(self, rid):
-        """
-        Delete a row from the bitmap.
-
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
         Args:
             rid : int
                 The id corresponding to the row being deleted.
         """
 
-<<<<<<< HEAD
         # We need to retrieve the value Bi of this row k
         #for idx in range(len(self.VB)):
         #    if self.VB[idx][rid] == 1:
@@ -168,8 +124,6 @@ class Bitmap:
         #        else:
         #            self.UB[idx] = '0'
 
-=======
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
         # Find the value of rid
         # For each value, look through VB at the rid
         for val in self.VB:
@@ -182,7 +136,6 @@ class Bitmap:
                 self.UB[val][rid] = 0
         pass
 
-<<<<<<< HEAD
     def query(self, value):
         """
         ???
@@ -208,8 +161,6 @@ class Bitmap:
             made = self.VB[value] ^ self.UB[value]
         comp, fence = WAH.compress(made)
         que = BitVector(bitstring = comp)
-        print(comp)
-        print(fence)
         counter = 0
         table_index = []
         for i in fence:
@@ -222,28 +173,4 @@ class Bitmap:
                 for q in range(i, i + (31 * count)):
                     table_index.append(self.attribute[q])
             counter += 31
-        print(table_index)
         return table_index
-=======
-
-    def query(self, value):
-        """
-        Search for a bitvector of a certain value.
-
-        Args:
-            value : int
-                The
-        """
-
-        # Make sure value is valid key
-        if value in self.VB.keys():
-            # If the UB is all zeros, return the VB
-            if self.UB[value].intValue() == 0:
-                return self.VB[value]
-            # Else, return the VB XOR UB
-            else:
-                return self.VB[value] ^ self.UB[value]
-        else:
-            return None
-
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
