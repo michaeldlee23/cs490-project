@@ -18,12 +18,16 @@ def compress(data):
     # if mixed add 31 bits to full list and add signal bit, else add signal bit and if next 31 bits are all same with same
     # bit number update count of previous marked by counter and check if type is same as previous_bit_bunch
     zero_count, one_count = 0, 0
+    temp_fence = 0
+    fence_pointers = []
     while len(data) != 0:
         idx = min(31, len(data))
         bits = data[:idx]
         if idx != len(data) and not any(bits):
             if one_count != 0:
-                compressed += format(count, "030b")
+                compressed += format(one_count, "030b")
+                fence_pointers.append(temp_fence)
+                temp_fence += 31 * one_count
                 one_count = 0
             if zero_count == 0:
                 compressed += "1"
@@ -31,7 +35,9 @@ def compress(data):
             zero_count += 1
         elif idx != len(data) and all(bits):
             if zero_count != 0:
-                compressed += format(count, "030b")
+                compressed += format(zero_count, "030b")
+                fence_pointers.append(temp_fence)
+                temp_fence += 31 * zero_count
                 zero_count = 0
             if one_count == 0:
                 compressed += "1"
@@ -41,15 +47,21 @@ def compress(data):
             assert(min(zero_count, one_count) == 0)
             if zero_count or one_count:
                 compressed += format(max(zero_count, one_count), "030b")
+                if zero_count != 0:
+                    temp_fence += 31 * zero_count
+                if one_count != 0:
+                    temp_fence += 31 * one_count
                 zero_count, one_count = 0, 0
             compressed += "0"
             compressed += "".join(str(b) for b in bits)
+            fence_pointers.append(temp_fence)
+            temp_fence += 31
         data = data[idx:]
     if zero_count or one_count:
         assert(min(zero_count, one_count) == 0)
         compressed += format(max(zero_count, one_count), "030b")
-
-    return compressed
+        fence_pointers.append(temp_fence)
+    return compressed, fence_pointers
 
 def decompress(compressed):
     """

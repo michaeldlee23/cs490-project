@@ -20,7 +20,7 @@ class UpBit:
             None
         """
         for attr, value in record.items():
-            bitmaps[attr].insert(value)
+            self.bitmaps[attr].insert(value)
 
     def update(self, rid, values):
         """
@@ -36,7 +36,7 @@ class UpBit:
             None
         """
         for attr, value in values.items():
-            bitmaps[attr].update(rid, value)
+            self.bitmaps[attr].update(rid, value)
 
     def delete(self, rid):
         """
@@ -49,12 +49,11 @@ class UpBit:
         Returns:
             None
         """
-        for attr in attributes:
-            bitmaps[attr].delete(rid)
+        for attr in self.attributes:
+            self.bitmaps[attr].delete(rid)
 
     def query(self):
         """
         ???
         """
         pass
-
