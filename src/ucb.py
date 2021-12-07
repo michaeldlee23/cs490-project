@@ -77,20 +77,17 @@ class Bitmap:
         """
 
         # We need to retrieve the value Bi of this row k
-        for idx in range(len(self.attribute)):
-            if self.attribute[idx] == rid:
-                # Find the eb bitvector corresponding to this value rid
-                # Negate the contents of the selected update bitvector for row idx
-                self.EB[idx] = 0
+
+        self.EB[rid] = 0
         pass
 
     def query(self, value):
         """
-        ???
+
         """
         # (1) find i bitvector that val corresponds to
-        for val in self.VB:
-            if val == value:
-                return
+        val_bv = self.VB[value]
+        val_eb = self.EB
+        return val_eb.__and__(val_bv)
 
 
