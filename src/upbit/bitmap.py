@@ -48,7 +48,7 @@ class Bitmap:
             for val in self.VB:
                 self.VB[val].pad_from_right(1)
                 self.UB[val].pad_from_right(1)
-                self.size += 1
+            self.size += 1
 
         #Set last value (if padded space was added or not?) to 1
         self.VB[value][-1] = 1
