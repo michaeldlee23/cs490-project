@@ -18,7 +18,6 @@ bitmap = Bitmap(list(data))
 
 # Should result in a bitmap with n+1 records, the last element being 1
 bitmap.insert(6)
-<<<<<<< HEAD
 c = len(bitmap.VB[6])
 d = len(bitmap.UB[6])
 assert(c == d == n+1)
@@ -33,18 +32,6 @@ assert(bitmap.VB[1][-1] == 1)
 
 # Should result in a bitmap with n+2 records, the first element being 0
 bitmap.update(0, 1)
-=======
-assert(len(bitmap.UB[1]) == len(bitmap.VB[1]) == n+1)
-assert(bitmap.VB[1][-1] == 0)
-
-# Should result in a bitmap with n+2 records, the last element being 1
-bitmap.insert(1)
-assert(len(bitmap.UB[1]) == len(bitmap.VB[1]) == n+2)
-assert(bitmap.VB[1][-1] == 1)
-
-# Should result in a bitmap with n+2 records, the first element being 0
-bitmap.update(0, 3)
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
 assert(len(bitmap.UB[1]) == len(bitmap.VB[1]) == n+2)
 assert(bitmap.UB[1][0] == 1)
 assert(bitmap.VB[1][0] == 0)
@@ -52,12 +39,7 @@ assert(bitmap.VB[1][0] == 0)
 # Should result in a bitmap, still with n+2 records, with a negated value in update bitvector
 # in this case, negation of 1 is 0
 bitmap.delete(0)
-<<<<<<< HEAD
 assert(len(bitmap.UB[0]) == len(bitmap.VB[0]) == n+2)
 assert(bitmap.UB[0][-1] == 0)
-=======
-assert(len(bitmap.UB[1]) == len(bitmap.VB[1]) == n+2)
-assert(bitmap.UB[1][0] == 0)
->>>>>>> 18dead974ed491643174c8c58ba3ec60ba5a6f3f
 
 print(bitmap.query(1))
