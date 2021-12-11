@@ -19,9 +19,11 @@ def time_log(start_msg):
     return decorator
 
 
-distribution = "uniform"
+#distribution = "uniform"
+distribution = "zipfian"
 d, n = 100, int(1e5)
 data_path = "../../data/synthetic/%s_d-%d_n-%d.npy" % (distribution, d, n)
+print(data_path)
 if not os.path.exists(data_path):
     print("Dataset (%s) does not exist.\nPlease run create_data.py to create synthetic dataset." % data_path)
     sys.exit()
@@ -65,9 +67,12 @@ def test_delete(index):
 
 @time_log("Querying")
 def test_query(index):
-    print(index.query(("A", 1)))
+    query = index.query(("A", 1))
+    assert(len(query) == len([x for x in data if x == 1]))
+    assert(all(data[i] == 1 for i in query))
 
 if __name__ == "__main__":
+    print("Testing upbit...")
     test_insert(upbit)
     test_update(upbit)
     test_delete(upbit)
@@ -75,6 +80,7 @@ if __name__ == "__main__":
 
     print("\n\n\n")
 
+    print("Testing UCB...")
     test_insert(ucb)
     test_update(ucb)
     test_delete(ucb)

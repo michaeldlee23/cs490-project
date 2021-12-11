@@ -12,7 +12,7 @@ class Bitmap:
                 A dictionary mapping attribute names with their domains.
         """
         unq_vals = set(data)
-        self.size = len(data) * 10
+        self.size = len(data)
         self.UB = {}
         self.VB = {}
         self.attribute = data
@@ -99,8 +99,7 @@ class Bitmap:
         pass
 
     def query(self, value):
-        """
-        ???
+        return [i for i,x in enumerate(self.VB[value].__xor__(self.UB[value])) if x]
         """
         # If the UB is all zeros, return the VB
         made = ""
@@ -117,10 +116,13 @@ class Bitmap:
             if que[counter] == 0:
                 for x in range(i, min(i+31, len(self.attribute))):
                     if self.attribute[x] == value:
-                        table_index.append(self.attribute[x])
+                        #table_index.append(self.attribute[x])
+                        table_index.append(x)
             elif que[counter] == 1 and que[counter+1] == 1:
                 count = BitVector(bitstring = que[counter+2:counter+31]).intValue()
                 for q in range(i, i + (31 * count)):
-                    table_index.append(self.attribute[q])
+                    #table_index.append(self.attribute[q])
+                    table_index.append(q)
             counter += 31
         return table_index
+        """

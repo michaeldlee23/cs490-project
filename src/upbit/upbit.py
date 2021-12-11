@@ -53,7 +53,4 @@ class UpBit:
             self.bitmaps[attr].delete(rid)
 
     def query(self, q):
-        """
-        ???
-        """
         return self.bitmaps[q[0]].query(q[1])
